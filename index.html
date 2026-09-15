@@ -648,8 +648,8 @@ function scopeOptions(){
 function renderCards(){
   if(!deck) buildDeck();
   const d=deck;
-  const head=`<div class="page-h" style="margin-top:14px"><h1>Кар<span class="s">т</span>очки</h1>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+  const head=`<div class="page-h" style="margin-top:14px;justify-content:center">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center">
       <select class="field" id="scope" aria-label="Набор карточек">${scopeOptions()}</select>
       <div class="seg" role="group" aria-label="Режим"><button id="m-ru" aria-pressed="${cardMode==="ru"}">RU · перевод</button><button id="m-en" aria-pressed="${cardMode==="en"}">EN · explanation</button></div>
     </div></div>`;
