@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#000000">
-<meta name="description" content="600 слов из Essential Words for the IELTS: карточки RU/EN, словосочетания и задания с интервальными повторениями.">
+<meta name="description" content="600 слов из Essential Words for the IELTS: карточки RU/EN, словосочетания и тесты.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
 <style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 <title>Слово за словом</title>
@@ -102,6 +102,8 @@ nav button[aria-current="page"]{background:var(--glass-2);color:var(--text)}
 .lesson button.name{background:none;border:0;padding:0;text-align:left;font-size:19px;letter-spacing:-.01em;color:var(--text)}
 .lesson button.name:hover{color:#fff;text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:4px}
 .lesson .acts{display:flex;gap:6px}
+.btn.test{background:#F1F0EA;color:#0A0A0A;border-color:#F1F0EA;font-weight:500}
+.btn.test:hover{background:#fff}
 .lesson .meter{grid-column:1/-1;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-3)}
 .meter .track{flex:1;height:4px;border-radius:2px;background:var(--glass-2);overflow:hidden;display:flex}
 .meter .track i{display:block;height:100%}
@@ -305,6 +307,62 @@ dialog[open] .glass{animation:cardIn .4s cubic-bezier(.2,.7,.2,1) both}
 .seg button{transition:background .25s,color .25s}
 @keyframes rise{from{opacity:.001;transform:translateY(10px)}to{opacity:1;transform:none}}
 .hero .lead{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+/* тест */
+.kq{max-width:980px;margin:0 auto;padding-top:14px}
+.kq-intro,.kq-end{text-align:center;padding-top:8vh}
+.kq-intro h1,.kq-end h1{font-size:clamp(40px,7vw,76px);font-weight:400;letter-spacing:-.045em;line-height:1.02;margin:14px 0 16px}
+.kq-intro p{font-size:18px;margin:0 auto 34px;max-width:40ch}
+.kq-count{font-size:clamp(90px,16vw,160px);font-weight:300;letter-spacing:-.05em;line-height:1;text-shadow:0 0 50px rgba(255,255,255,.5);animation:cnt .75s cubic-bezier(.2,.7,.2,1)}
+@keyframes cnt{from{transform:scale(1.8);opacity:0;filter:blur(10px)}to{transform:none;opacity:1}}
+.kq-top{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.kq-n{font-size:22px;font-weight:500}.kq-n span{color:var(--text-3);font-weight:400}
+.kq-score{margin-left:auto;font-size:26px;font-weight:500;padding:4px 16px;border-radius:999px;background:var(--glass-2);border:1px solid var(--line)}
+.kq-score.pop{animation:pop .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes pop{40%{transform:scale(1.18);box-shadow:0 0 30px rgba(255,255,255,.35)}}
+.kq-streak{font-size:15px;color:var(--ember)}
+.kq-q{min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px 20px;border-radius:24px;border:1px solid var(--line);
+  background:radial-gradient(70% 80% at 50% 100%,rgba(76,154,160,.12),transparent 70%),linear-gradient(180deg,#0E1112,#050606);animation:cardIn .45s cubic-bezier(.2,.7,.2,1) both}
+.kq-hint{font-size:15px;color:var(--text-3);margin-bottom:10px;letter-spacing:.02em}
+.kq-word{font-size:clamp(40px,7vw,68px);letter-spacing:-.045em;line-height:1.05;text-wrap:balance}
+.kq-word.ru{font-size:clamp(30px,5vw,48px);letter-spacing:-.03em}
+.kq-word.def,.kq-word.gapq{font-size:clamp(24px,3.6vw,34px);letter-spacing:-.02em;line-height:1.3;max-width:30ch}
+.kq-word .gap{min-width:3.5em}
+.kq-timer{position:relative;height:30px;margin:18px 0;display:flex;align-items:center}
+.kq-timer i{flex:1;height:8px;border-radius:4px;background:linear-gradient(90deg,#8FC39A,#E8F5E6);transform-origin:left;box-shadow:0 0 16px rgba(170,230,190,.4)}
+.kq-timer i.low{background:linear-gradient(90deg,#E21B3C,#FF8A80);box-shadow:0 0 18px rgba(226,27,60,.6)}
+.kq-timer span{min-width:48px;text-align:right;font-size:22px;font-weight:500}
+.kq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:600px){.kq-grid{grid-template-columns:1fr;gap:10px}}
+.kq-opt{position:relative;display:flex;align-items:center;gap:16px;min-height:104px;padding:18px 22px;border:0;border-radius:18px;text-align:left;color:#fff;font-size:clamp(18px,2.2vw,23px);font-weight:500;letter-spacing:-.01em;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--c) 100%,#fff 8%),var(--c));box-shadow:inset 0 -5px 0 rgba(0,0,0,.25),0 10px 30px -12px var(--c);
+  transition:transform .15s,filter .25s,opacity .3s,box-shadow .2s;animation:optIn .5s var(--d) cubic-bezier(.2,.7,.2,1) both}
+@keyframes optIn{from{opacity:.001;transform:translateY(18px) scale(.96)}}
+.kq-opt:hover:not(:disabled){transform:translateY(-3px);box-shadow:inset 0 -5px 0 rgba(0,0,0,.25),0 18px 40px -12px var(--c)}
+.kq-opt:active:not(:disabled){transform:translateY(2px);box-shadow:inset 0 -2px 0 rgba(0,0,0,.25)}
+.kq-opt svg{width:34px;height:34px;flex:none;fill:#fff;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+.kq-opt span{flex:1;text-wrap:balance}
+.kq-opt kbd{font-family:var(--sans);font-size:13px;opacity:.7;border:1px solid rgba(255,255,255,.5);border-radius:6px;padding:1px 7px}
+.kq-opt:disabled{cursor:default}
+.kq-opt.dim{opacity:.22;filter:saturate(.3)}
+.kq-opt.wrong{opacity:.55;filter:saturate(.6)}
+.kq-opt.right{transform:scale(1.03);box-shadow:0 0 0 3px #fff,0 0 50px -6px var(--c);z-index:1}
+.kq-opt.right::after{content:"✓";position:absolute;right:18px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#fff;color:#26890C;display:grid;place-items:center;font-size:22px;font-weight:700}
+.kq-opt.right kbd{display:none}
+.kq-grid.shake{animation:shake .45s}
+.kq-fb{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:18px;padding:0 4px;min-height:56px;opacity:0}
+.kq-fb.show{opacity:1;animation:rise .4s cubic-bezier(.2,.7,.2,1)}
+.kq-verdict{font-size:26px;font-weight:600;letter-spacing:-.02em;display:flex;gap:12px;align-items:baseline}
+.kq-fb.good .kq-verdict{color:var(--moss)} .kq-fb.bad .kq-verdict{color:#FF6B7F}
+.kq-verdict b{color:#fff;font-size:22px;font-weight:500}
+.kq-answer{font-size:18px;color:var(--text-2)}.kq-answer span{color:var(--text)}
+.kq-fb .pearl{margin-left:auto}
+.kq-podium{display:flex;justify-content:center;gap:clamp(20px,6vw,70px);flex-wrap:wrap;margin:34px 0 10px}
+.kq-podium div{display:flex;flex-direction:column;align-items:center}
+.kq-podium b{font-size:clamp(44px,7vw,72px);font-weight:300;letter-spacing:-.05em;line-height:1;text-shadow:0 0 36px rgba(255,255,255,.3)}
+.kq-podium span{color:var(--text-2);font-size:16px;margin-top:6px}
+.kq-miss{max-width:640px;margin:34px auto 0;text-align:left}
+.kq-miss .label{margin-bottom:10px}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -423,23 +481,24 @@ function nextLesson(){ return LESSONS.find(l=>lessonStats(l.n).fresh>0) || LESSO
 let current="home", arg=null, session=null, deck=null;
 function go(v,a=null){
   if(v!=="learn"&&session&&!session.finished){ session=null; }
+  if(v!=="quiz"&&quiz){ cancelAnimationFrame(quiz.raf); clearTimeout(quiz.to); quiz=null; }
   current=v; arg=a;
-  const tab = v==="lesson"||v==="learn"?"home":v;
+  const tab = v==="lesson"||v==="learn"||v==="quiz"?"home":v;
   document.querySelectorAll("#nav button").forEach(b=>b.dataset.v===tab?b.setAttribute("aria-current","page"):b.removeAttribute("aria-current"));
   stopGarden();
   const vw=$("#view"); vw.classList.remove("enter");
-  ({home:renderHome,lesson:renderLesson,learn:renderSession,cards:renderCards,dict:renderDict})[v]();
+  ({home:renderHome,lesson:renderLesson,learn:renderSession,quiz:renderQuiz,cards:renderCards,dict:renderDict})[v]();
   void vw.offsetWidth; if(v!=="home") vw.classList.add("enter");
   window.scrollTo(0,0);
 }
-$("#nav").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(session&&!session.finished&&current==="learn"&&!confirm("Прервать тренировку? Ответы уже сохранены."))return;go(b.dataset.v);});
+$("#nav").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(quiz&&current==="quiz"&&quiz.phase==="q"&&!confirm("Выйти из теста?"))return;if(session&&!session.finished&&current==="learn"&&!confirm("Прервать тренировку? Ответы уже сохранены."))return;go(b.dataset.v);});
 $("#brand").onclick=()=>go("home");
 
 /* ---------- home / landing ---------- */
 function renderHome(){
   const g=globalStats(), nl=nextLesson(), learned=g.byBox[5], started=WORDS.length-g.byBox[0];
-  const cta = g.due>0 ? {t:`Повторить ${g.due} ${plural(g.due,"слово","слова","слов")}`, s:"Слова ждут повторения — лучший момент, чтобы они закрепились", fn:()=>startSession({due:true})}
-    : {t:started?"Продолжить обучение":"Начать с первой темы", s:`Следующая тема: ${nl.name} · Unit ${nl.unit}`, fn:()=>startSession({lesson:nl.n})};
+  const cta = g.due>0 ? {t:`Повторить ${g.due} ${plural(g.due,"слово","слова","слов")}`, s:"Слова ждут повторения — лучший момент, чтобы они закрепились", fn:()=>startQuiz({due:true})}
+    : {t:started?"Продолжить":"Начать с первой темы", s:`Следующая тема: ${nl.name} · Unit ${nl.unit}`, fn:()=>startQuiz({lesson:nl.n})};
   $("#view").innerHTML = `
   <section class="hero">
     <canvas id="garden" aria-hidden="true"></canvas>
@@ -462,7 +521,7 @@ function renderHome(){
       ${ls.map(l=>{ const s=lessonStats(l.n); return `
       <div class="lesson">
         <button class="name" data-lesson="${l.n}">${s.due?'<span class="due-dot" title="Есть слова к повторению"></span>':""}${esc(l.name)}</button>
-        <div class="acts"><button class="btn sm" data-cards="${l.n}">Карточки</button><button class="btn sm" data-learn="${l.n}">${s.fresh===s.total?"Учить":s.fresh?"Дальше":"Повторить"}</button></div>
+        <div class="acts"><button class="btn sm" data-cards="${l.n}">Карточки</button><button class="btn sm test" data-learn="${l.n}">Тест</button></div>
         <div class="meter"><div class="track">${s.byBox.map((n,i)=>i&&n?`<i style="width:${n/s.total*100}%;background:${STAGE_COL[i]}"></i>`:"").join("")}</div><span class="tn">${s.total-s.fresh}/${s.total}${s.due?` · ${s.due} к повтору`:""}</span></div>
       </div>`;}).join("")}
     </article>`;}).join("")}
@@ -471,7 +530,7 @@ function renderHome(){
   $("#view").querySelector(".units").onclick=e=>{
     const b=e.target.closest("button"); if(!b)return;
     if(b.dataset.lesson) go("lesson",+b.dataset.lesson);
-    else if(b.dataset.learn) startSession({lesson:+b.dataset.learn});
+    else if(b.dataset.learn) startQuiz({lesson:+b.dataset.learn});
     else if(b.dataset.cards) startCards({lesson:+b.dataset.cards});
   };
   document.querySelectorAll(".unit").forEach((u,i)=>{u.style.setProperty("--i",i);u.addEventListener("pointermove",e=>{const r=u.getBoundingClientRect();u.style.setProperty("--x",(e.clientX-r.left)+"px");u.style.setProperty("--y",(e.clientY-r.top)+"px");});});
@@ -487,11 +546,11 @@ function renderLesson(){
   const l=LESSONS.find(x=>x.n===arg), s=lessonStats(l.n), ws=WORDS.filter(w=>w.lesson===l.n);
   $("#view").innerHTML = `<button class="back" id="bk">← Все юниты</button>
   <div class="page-h"><div><div class="label">Unit ${l.unit} · ${esc(l.unitName)} · тема ${((l.n-1)%3)+1} из 3</div><h1 style="margin-top:10px">${esc(l.name)}</h1></div>
-    <div class="row" style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="lc">Карточки</button><button class="pearl sm" id="ll">${s.fresh?`Учить ${Math.min(NEW_PER_SESSION,s.fresh)} новых`:"Повторить тему"}</button></div></div>
+    <div class="row" style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="lc">Карточки</button><button class="pearl sm" id="ll">Пройти тест</button></div></div>
   <div class="list">${ws.map(w=>rowHTML(w)).join("")}</div>`;
   $("#bk").onclick=()=>go("home");
   $("#lc").onclick=()=>startCards({lesson:l.n});
-  $("#ll").onclick=()=>startSession({lesson:l.n});
+  $("#ll").onclick=()=>startQuiz({lesson:l.n});
   $(".list").onclick=e=>{const b=e.target.closest(".item");if(b)openEntry(b.dataset.id);};
 }
 function rowHTML(w,showUnit){
@@ -563,7 +622,7 @@ function renderCards(){
     body=`<div class="glass done"><h2>Здесь пока пусто</h2><p class="muted">${cardScope.due?"Нет слов к повторению — отличная работа.":"Начните любую тему, и слова появятся здесь."}</p><div class="card-acts"><button class="btn" id="pickl1">Открыть Unit 1</button></div></div>`;
   } else if(d.i>=d.items.length){
     body=`<div class="glass done"><div class="label">Колода пройдена</div><h2 style="margin:12px 0">Помню ${d.known} из ${d.total}</h2><p class="muted">${d.again?`${d.again} ${plural(d.again,"раз","раза","раз")} слово возвращалось в колоду.`:"Все слова с первого раза."}</p>
-    <div class="card-acts"><button class="btn" id="again">Ещё раз</button><button class="pearl sm" id="tolearn">Тренировать задания</button></div></div>`;
+    <div class="card-acts"><button class="btn" id="again">Ещё раз</button><button class="pearl sm" id="tolearn">Пройти тест</button></div></div>`;
   } else {
     const w=BYID.get(d.items[d.i]), e=w.ex[0];
     const cols=(w.cols||[]).map(c=>`<li><span class="cc">${highlight(w,{en:c.c})}</span>${cardMode==="ru"?`<span class="cr">${esc(c.ru)}</span>`:""}</li>`).join("");
@@ -601,7 +660,7 @@ function renderCards(){
   $("#yes")?.addEventListener("click",()=>rate(true));
   $("#no")?.addEventListener("click",()=>rate(false));
   $("#again")?.addEventListener("click",()=>{deck=null;renderCards();});
-  $("#tolearn")?.addEventListener("click",()=>startSession(cardScope.lesson?{lesson:cardScope.lesson}:{due:true}));
+  $("#tolearn")?.addEventListener("click",()=>startQuiz(cardScope.lesson?{lesson:cardScope.lesson}:cardScope.unit?{unit:cardScope.unit}:{due:true}));
   $("#pickl1")?.addEventListener("click",()=>{cardScope={lesson:1};deck=null;renderCards();});
 }
 function setMode(m){cardMode=m;try{localStorage.setItem("szs-mode",m);}catch{}renderCards();}
@@ -786,6 +845,12 @@ function renderDone(){
 }
 document.addEventListener("keydown",e=>{
   const typing=e.target.matches("input,textarea,select");
+  if(current==="quiz"&&quiz&&!typing){
+    if(quiz.phase==="q"&&!quiz.answered&&/^[1-4]$/.test(e.key)){document.querySelectorAll(".kq-opt")[+e.key-1]?.click();}
+    else if(e.key==="Enter"&&quiz.answered&&$("#kn")){e.preventDefault();$("#kn").click();}
+    else if(e.key==="Enter"&&quiz.phase==="intro"&&$("#go")&&!$("#go").hidden){e.preventDefault();$("#go").click();}
+    return;
+  }
   if(current==="learn"&&session){
     if(e.key==="Enter"&&(!typing||session.answered)){ const b=$("#nx")||$("#cont"); if(b){e.preventDefault();b.click();} }
     else if(/^[1-4]$/.test(e.key)&&!typing) document.querySelectorAll(".opt")[+e.key-1]?.click();
@@ -796,6 +861,138 @@ document.addEventListener("keydown",e=>{
     else if(e.key==="2"||e.key==="ArrowRight")rate(true);
   }
 });
+
+/* ---------- тест в стиле Kahoot ---------- */
+const QUIZ_TIME=20000;
+const QCOL=[{c:"#E21B3C",n:"red",shape:'<polygon points="12,3 22,21 2,21"/>'},{c:"#1368CE",n:"blue",shape:'<polygon points="12,2 22,12 12,22 2,12"/>'},{c:"#D89E00",n:"yellow",shape:'<circle cx="12" cy="12" r="10"/>'},{c:"#26890C",n:"green",shape:'<rect x="3" y="3" width="18" height="18"/>'}];
+let quiz=null;
+function startQuiz(scope){
+  const now=Date.now();
+  let ws;
+  if(scope.lesson) ws=WORDS.filter(w=>w.lesson===scope.lesson);
+  else if(scope.unit) ws=shuffle(WORDS.filter(w=>LESSONS[w.lesson-1].unit===scope.unit)).slice(0,20);
+  else { ws=WORDS.filter(w=>{const p=store.get(w.id);return p.b>0&&p.d<=now;}); ws=shuffle(ws).slice(0,20); }
+  if(!ws.length){ toast("Сейчас нечего проверять — откройте любую тему"); return; }
+  const types=["mc_en","mc_ru","mc_def","gap"];
+  const qs=shuffle(ws).map((w,i)=>{
+    let type=types[i%4]; const ex=pick(w.ex); let g=null;
+    if(type==="gap"){ g=gapped(w,ex); if(!g) type="mc_en"; }
+    const field=type==="mc_en"?"tr":"w";
+    const opts=shuffle([w[field],...distractors(w,3,field)]);
+    return {id:w.id,type,ex,g,field,opts,correct:w[field]};
+  });
+  quiz={scope,qs,i:0,score:0,streak:0,best:0,right:0,wrong:[],phase:"intro",t0:0,answered:false};
+  if(scope.lesson){const l=LESSONS[scope.lesson-1];quiz.title=l.name;quiz.sub=`Unit ${l.unit} · ${l.unitName}`;}
+  else if(scope.unit){const l=LESSONS.find(x=>x.unit===scope.unit);quiz.title=l.unitName;quiz.sub=`Unit ${scope.unit} · 20 случайных слов`;}
+  else {quiz.title="Повторение";quiz.sub="Слова, которые пора освежить";}
+  go("quiz");
+}
+function renderQuiz(){
+  const q=quiz; if(!q){go("home");return;}
+  cancelAnimationFrame(q.raf); clearTimeout(q.to);
+  if(q.phase==="intro"){
+    $("#view").innerHTML=`<section class="kq kq-intro">
+      <div class="label">${esc(q.sub)}</div>
+      <h1>${esc(q.title)}</h1>
+      <p class="muted">${q.qs.length} ${plural(q.qs.length,"вопрос","вопроса","вопросов")} · 20 секунд на ответ · чем быстрее, тем больше очков</p>
+      <div class="kq-count" id="cd" hidden></div>
+      <button class="pearl" id="go">Поехали</button>
+    </section>`;
+    $("#go").onclick=()=>{ $("#go").hidden=true; const cd=$("#cd"); cd.hidden=false; let n=3; cd.textContent=n;
+      const tick=()=>{ n--; if(!quiz||current!=="quiz")return; if(n>0){cd.textContent=n;cd.style.animation="none";void cd.offsetWidth;cd.style.animation="";q.to=setTimeout(tick,750);} else {q.phase="q";renderQuiz();} };
+      q.to=setTimeout(tick,750); };
+    return;
+  }
+  if(q.phase==="end") return renderQuizEnd();
+  const it=q.qs[q.i], w=BYID.get(it.id);
+  let prompt;
+  if(it.type==="mc_en") prompt=`<div class="kq-hint">Что значит слово?</div><div class="kq-word">${esc(w.w)}</div>`;
+  else if(it.type==="mc_ru") prompt=`<div class="kq-hint">Как сказать по-английски?</div><div class="kq-word ru">${esc(w.tr)}</div>`;
+  else if(it.type==="mc_def") prompt=`<div class="kq-hint">Какое слово подходит?</div><div class="kq-word def">${esc(w.def)}</div>`;
+  else prompt=`<div class="kq-hint">Вставьте слово</div><div class="kq-word gapq">${it.g.html}</div>`;
+  q.answered=false;
+  $("#view").innerHTML=`<section class="kq">
+    <div class="kq-top">
+      <span class="kq-n tn">${q.i+1}<span>/${q.qs.length}</span></span>
+      <span class="kq-score tn" id="score">${q.score.toLocaleString("ru")}</span>
+      ${q.streak>1?`<span class="kq-streak">серия ${q.streak} 🔥</span>`:""}
+      <button class="btn sm" id="quit">Выйти</button>
+    </div>
+    <div class="kq-q">${prompt}</div>
+    <div class="kq-timer"><i id="bar"></i><span id="secs" class="tn">20</span></div>
+    <div class="kq-grid">${it.opts.map((o,k)=>`<button class="kq-opt ${QCOL[k].n}" data-o="${esc(o)}" style="--c:${QCOL[k].c};--d:${k*60}ms">
+      <svg viewBox="0 0 24 24" aria-hidden="true">${QCOL[k].shape}</svg><span>${esc(o)}</span><kbd>${k+1}</kbd></button>`).join("")}</div>
+    <div class="kq-fb" id="kfb"></div>
+  </section>`;
+  $("#quit").onclick=()=>{ if(q.i===0||confirm("Закончить тест? Результат по отвеченным вопросам сохранится.")){ q.phase="end"; renderQuiz(); } };
+  document.querySelectorAll(".kq-opt").forEach(b=>b.onclick=()=>quizAnswer(b));
+  q.t0=performance.now();
+  const bar=$("#bar"), secs=$("#secs");
+  const loop=()=>{ const el=performance.now()-q.t0, left=Math.max(0,QUIZ_TIME-el);
+    bar.style.transform=`scaleX(${left/QUIZ_TIME})`; secs.textContent=Math.ceil(left/1000);
+    bar.classList.toggle("low",left<5000);
+    if(left<=0){ quizAnswer(null); return; }
+    if(!q.answered) q.raf=requestAnimationFrame(loop); };
+  q.raf=requestAnimationFrame(loop);
+  if(it.type==="mc_en") setTimeout(()=>speak(w.w),250);
+}
+function quizAnswer(btn){
+  const q=quiz; if(!q||q.answered)return; q.answered=true; cancelAnimationFrame(q.raf);
+  const it=q.qs[q.i], w=BYID.get(it.id), el=performance.now()-q.t0;
+  const ok=!!btn&&btn.dataset.o===it.correct;
+  let pts=0;
+  if(ok){ q.streak++; q.best=Math.max(q.best,q.streak); q.right++;
+    pts=Math.round(1000*(1-Math.min(el,QUIZ_TIME)/QUIZ_TIME/2))+Math.min(q.streak-1,5)*100; q.score+=pts; }
+  else { q.streak=0; q.wrong.push(it.id); }
+  document.querySelectorAll(".kq-opt").forEach(b=>{b.disabled=true;
+    if(b.dataset.o===it.correct)b.classList.add("right"); else b.classList.add(b===btn?"wrong":"dim");});
+  // прогресс слова
+  const p={...store.get(it.id)};
+  if(ok){p.r++; p.b=Math.min(5,p.b+1); p.d=Date.now()+INTERVAL[p.b]*DAY-3600e3;}
+  else {p.x++; p.b=Math.max(1,p.b-1); p.d=Date.now()+10*60e3;}
+  store.set(it.id,p); store.bump();
+  const fb=$("#kfb");
+  fb.className="kq-fb show "+(ok?"good":"bad");
+  fb.innerHTML=`<div class="kq-verdict">${ok?"Верно":btn?"Неверно":"Время вышло"}${ok?`<b class="tn">+${pts}</b>`:""}</div>
+    <div class="kq-answer"><span>${esc(w.w)}</span> — ${esc(w.tr)}</div>
+    <button class="pearl sm" id="kn">${q.i+1<q.qs.length?"Дальше":"Итоги"}<span class="kbd">Enter</span></button>`;
+  const sc=$("#score"); if(sc){sc.textContent=q.score.toLocaleString("ru"); if(ok){sc.classList.remove("pop");void sc.offsetWidth;sc.classList.add("pop");}}
+  if(ok&&btn){const r=btn.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,28);}
+  else { const g=$(".kq-grid"); g.classList.remove("shake"); void g.offsetWidth; g.classList.add("shake"); }
+  $("#kn").onclick=quizNext; $("#kn").focus();
+}
+function quizNext(){ const q=quiz; if(!q)return; q.i++; if(q.i>=q.qs.length) q.phase="end"; renderQuiz(); }
+function renderQuizEnd(){
+  const q=quiz, n=q.right+q.wrong.length, acc=n?Math.round(q.right/n*100):0;
+  const medal=acc>=90?"Блестяще":acc>=70?"Хороший результат":acc>=40?"Неплохо для начала":"Нужно ещё повторить";
+  const wrong=[...new Set(q.wrong)].map(id=>BYID.get(id));
+  $("#view").innerHTML=`<section class="kq kq-end">
+    <div class="label">${esc(q.title)}</div>
+    <h1>${medal}</h1>
+    <div class="kq-podium">
+      <div><b class="tn" id="fin">0</b><span>очков</span></div>
+      <div><b class="tn">${q.right}/${n}</b><span>верно · ${acc}%</span></div>
+      <div><b class="tn">${q.best}</b><span>лучшая серия</span></div>
+    </div>
+    ${wrong.length?`<div class="kq-miss"><div class="label">Повторите эти слова</div>${wrong.map(w=>`<button class="item" data-id="${w.id}"><span class="w">${esc(w.w)}</span><span class="t">${esc(w.tr)}</span><span></span></button>`).join("")}</div>`:""}
+    <div class="card-acts" style="margin-top:26px">
+      <button class="pearl sm" id="again">Пройти ещё раз</button>
+      ${q.scope.lesson?`<button class="btn" id="kc">Карточки темы</button>`:""}
+      ${q.scope.lesson&&q.scope.lesson<LESSONS.length?`<button class="btn" id="nextl">Следующая тема</button>`:""}
+      <button class="btn" id="home">К юнитам</button>
+    </div>
+  </section>`;
+  // счётчик очков
+  const fin=$("#fin"), target=q.score, t0=performance.now();
+  const count=t=>{const k=Math.min(1,(t-t0)/1200);fin.textContent=Math.round(target*(1-Math.pow(1-k,3))).toLocaleString("ru");if(k<1&&fin.isConnected)requestAnimationFrame(count);};
+  requestAnimationFrame(count);
+  if(acc>=70) celebrate();
+  $("#again").onclick=()=>startQuiz(q.scope);
+  $("#kc")?.addEventListener("click",()=>startCards({lesson:q.scope.lesson}));
+  $("#nextl")?.addEventListener("click",()=>startQuiz({lesson:q.scope.lesson+1}));
+  $("#home").onclick=()=>{quiz=null;go("home");};
+  $(".kq-miss")?.addEventListener("click",e=>{const b=e.target.closest(".item");if(b)openEntry(b.dataset.id);});
+}
 
 /* ---------- night garden (canvas) ---------- */
 let gardenRAF=0;
