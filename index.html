@@ -323,7 +323,13 @@ dialog[open] .glass{animation:cardIn .4s cubic-bezier(.2,.7,.2,1) both}
 .kq{max-width:980px;margin:0 auto;padding-top:14px}
 .kq-intro,.kq-end{text-align:center;padding-top:8vh}
 .kq-intro h1,.kq-end h1{font-size:clamp(40px,7vw,76px);font-weight:400;letter-spacing:-.045em;line-height:1.02;margin:14px 0 16px}
-.kq-intro p{font-size:18px;margin:0 auto 34px;max-width:40ch}
+.kq-intro p{font-size:17px;margin:0 auto 30px;max-width:56ch}
+.kq-setup{display:flex;flex-direction:column;align-items:center;gap:14px;margin:34px auto 22px}
+.kq-field{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center}
+.kq-field>span{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);min-width:88px;text-align:right}
+.kq-setup .seg button{font-size:15px;padding:8px 16px}
+.kq-setup .field{min-width:280px;font-size:15px}
+@media (max-width:560px){.kq-field>span{min-width:0;width:100%;text-align:center}}
 .kq-count{font-size:clamp(90px,16vw,160px);font-weight:300;letter-spacing:-.05em;line-height:1;text-shadow:0 0 50px rgba(255,255,255,.5);animation:cnt .75s cubic-bezier(.2,.7,.2,1)}
 @keyframes cnt{from{transform:scale(1.8);opacity:0;filter:blur(10px)}to{transform:none;opacity:1}}
 .kq-top{display:flex;align-items:center;gap:16px;margin-bottom:18px}
@@ -526,7 +532,7 @@ function go(v,a=null){
   void vw.offsetWidth; if(v!=="home") vw.classList.add("enter");
   window.scrollTo(0,0);
 }
-$("#nav").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(quiz&&current==="quiz"&&quiz.phase==="q"&&!confirm("Leave the quiz?"))return;if(session&&!session.finished&&current==="learn"&&!confirm("Stop practice? Your answers are already saved."))return;go(b.dataset.v);});
+$("#nav").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(quiz&&current==="quiz"&&quiz.phase==="q"&&quiz.total!==Infinity&&!confirm("Leave the quiz?"))return;if(session&&!session.finished&&current==="learn"&&!confirm("Stop practice? Your answers are already saved."))return;go(b.dataset.v);});
 $("#brand").onclick=()=>go("home");
 
 /* ---------- home / landing ---------- */
@@ -902,46 +908,87 @@ document.addEventListener("keydown",e=>{
 const QUIZ_TIME=20000;
 const QCOL=[{c:"#E21B3C",n:"red",shape:'<polygon points="12,3 22,21 2,21"/>'},{c:"#1368CE",n:"blue",shape:'<polygon points="12,2 22,12 12,22 2,12"/>'},{c:"#D89E00",n:"yellow",shape:'<circle cx="12" cy="12" r="10"/>'},{c:"#26890C",n:"green",shape:'<rect x="3" y="3" width="18" height="18"/>'}];
 let quiz=null;
-function startQuiz(scope){
+let quizCfg={count:20,shuffle:true};
+try{ quizCfg={...quizCfg,...JSON.parse(localStorage.getItem("szs-quiz")||"{}")}; }catch{}
+const saveQuizCfg=()=>{ try{localStorage.setItem("szs-quiz",JSON.stringify(quizCfg));}catch{} };
+const QTYPES=["mc_en","mc_ru","mc_def","gap"];
+function quizPool(scope){
   const now=Date.now();
-  let ws;
-  if(scope.lesson) ws=WORDS.filter(w=>w.lesson===scope.lesson);
-  else if(scope.unit) ws=shuffle(WORDS.filter(w=>LESSONS[w.lesson-1].unit===scope.unit)).slice(0,20);
-  else { ws=WORDS.filter(w=>{const p=store.get(w.id);return p.b>0&&p.d<=now;}); ws=shuffle(ws).slice(0,20); }
-  if(!ws.length){ toast("Nothing to quiz right now — open any topic"); return; }
-  const types=["mc_en","mc_ru","mc_def","gap"];
-  const qs=shuffle(ws).map((w,i)=>{
-    let type=types[i%4]; const ex=pick(w.ex); let g=null;
-    if(type==="gap"){ g=gapped(w,ex); if(!g) type="mc_en"; }
-    const field=type==="mc_en"?"tr":"w";
-    const opts=shuffle([w[field],...distractors(w,3,field)]);
-    return {id:w.id,type,ex,g,field,opts,correct:w[field]};
-  });
-  [...new Set(ws.map(w=>w.lesson))].forEach(preloadAudio);
-  quiz={scope,qs,i:0,score:0,streak:0,best:0,right:0,wrong:[],phase:"intro",t0:0,answered:false};
+  if(scope.lesson) return WORDS.filter(w=>w.lesson===scope.lesson);
+  if(scope.unit) return WORDS.filter(w=>LESSONS[w.lesson-1].unit===scope.unit);
+  if(scope.all) return WORDS.slice();
+  return WORDS.filter(w=>{const p=store.get(w.id);return p.b>0&&p.d<=now;});
+}
+function startQuiz(scope){
+  const pool=quizPool(scope);
+  if(!pool.length&&scope.due){ toast("No words are due — pick a topic or all words"); scope={all:true}; return startQuiz(scope); }
+  quiz={scope,pool,qs:[],order:[],oi:0,i:0,score:0,streak:0,best:0,right:0,wrong:[],phase:"intro",t0:0,answered:false};
   if(scope.lesson){const l=LESSONS[scope.lesson-1];quiz.title=l.name;quiz.sub=`Unit ${l.unit} · ${l.unitName}`;}
-  else if(scope.unit){const l=LESSONS.find(x=>x.unit===scope.unit);quiz.title=l.unitName;quiz.sub=`Unit ${scope.unit} · 20 random words`;}
+  else if(scope.unit){const l=LESSONS.find(x=>x.unit===scope.unit);quiz.title=l.unitName;quiz.sub=`Unit ${scope.unit} · all 3 topics`;}
+  else if(scope.all){quiz.title="All 600 words";quiz.sub="Every unit";}
   else {quiz.title="Review";quiz.sub="Words due for a refresh";}
   go("quiz");
+}
+function quizTotal(q){ const c=quizCfg.count; return c==="inf"?Infinity:c==="all"?q.pool.length:+c; }
+function makeQ(w,i){
+  let type=quizCfg.shuffle?pick(QTYPES):QTYPES[i%4]; const ex=pick(w.ex); let g=null;
+  if(type==="gap"){ g=gapped(w,ex); if(!g) type="mc_en"; }
+  const field=type==="mc_en"?"tr":"w";
+  const opts=shuffle([w[field],...distractors(w,3,field)]);
+  return {id:w.id,type,ex,g,field,opts,correct:w[field]};
+}
+function ensureQ(q,i){
+  while(q.qs.length<=i){
+    if(q.oi>=q.order.length){
+      let next=quizCfg.shuffle?shuffle(q.pool):q.pool.slice();
+      // не повторять то же слово дважды подряд на стыке кругов
+      if(q.qs.length&&next.length>1&&next[0].id===q.qs[q.qs.length-1].id) next.push(next.shift());
+      q.order=next; q.oi=0;
+    }
+    q.qs.push(makeQ(q.order[q.oi++],q.qs.length));
+  }
+  return q.qs[i];
+}
+function quizScopeValue(sc){ return sc.lesson?"l"+sc.lesson:sc.unit?"u"+sc.unit:sc.all?"all":"due"; }
+function quizScopeOptions(sc){
+  const v=quizScopeValue(sc);
+  let o=`<option value="due" ${v==="due"?"selected":""}>Due for review</option><option value="all" ${v==="all"?"selected":""}>All 600 words</option>`;
+  for(let u=1;u<=10;u++){const ls=LESSONS.filter(l=>l.unit===u);
+    o+=`<optgroup label="Unit ${u} · ${esc(ls[0].unitName)}"><option value="u${u}" ${v==="u"+u?"selected":""}>All of unit ${u} (60)</option>${ls.map(l=>`<option value="l${l.n}" ${v==="l"+l.n?"selected":""}>${esc(l.name)}</option>`).join("")}</optgroup>`;}
+  return o;
 }
 function renderQuiz(){
   const q=quiz; if(!q){go("home");return;}
   cancelAnimationFrame(q.raf); clearTimeout(q.to);
   if(q.phase==="intro"){
+    const counts=[[10,"10"],[20,"20"],[40,"40"],["all",`All (${q.pool.length})`],["inf","∞ Endless"]];
+    const tot=quizTotal(q);
     $("#view").innerHTML=`<section class="kq kq-intro">
       <div class="label">${esc(q.sub)}</div>
       <h1>${esc(q.title)}</h1>
-      <p class="muted">${q.qs.length} ${plural(q.qs.length,"question","questions","questions")} · 20 seconds each · the faster you answer, the more points</p>
+      <div class="kq-setup" id="setup">
+        <label class="kq-field"><span>Words</span><select class="field" id="qscope">${quizScopeOptions(q.scope)}</select></label>
+        <div class="kq-field"><span>Questions</span><div class="seg" role="group" aria-label="Number of questions">${counts.map(([v,t])=>`<button data-count="${v}" aria-pressed="${String(quizCfg.count)===String(v)}">${t}</button>`).join("")}</div></div>
+        <div class="kq-field"><span>Order</span><div class="seg" role="group" aria-label="Order"><button data-shuf="1" aria-pressed="${quizCfg.shuffle}">⤮ Shuffle</button><button data-shuf="0" aria-pressed="${!quizCfg.shuffle}">Book order</button></div></div>
+      </div>
+      <p class="muted">${q.pool.length} ${plural(q.pool.length,"word","words","words")} · ${tot===Infinity?"endless — quit any time":`${tot} ${plural(tot,"question","questions","questions")}`} · 20 seconds each${tot>q.pool.length&&tot!==Infinity?" · words repeat in new question types":""}</p>
       <div class="kq-count" id="cd" hidden></div>
       <button class="pearl" id="go">Let's go</button>
     </section>`;
-    $("#go").onclick=()=>{ $("#go").hidden=true; const cd=$("#cd"); cd.hidden=false; let n=3; cd.textContent=n;
-      const tick=()=>{ n--; if(!quiz||current!=="quiz")return; if(n>0){cd.textContent=n;cd.style.animation="none";void cd.offsetWidth;cd.style.animation="";q.to=setTimeout(tick,750);} else {q.phase="q";renderQuiz();} };
+    $("#qscope").onchange=e=>{const v=e.target.value;startQuiz(v==="due"?{due:true}:v==="all"?{all:true}:v[0]==="u"?{unit:+v.slice(1)}:{lesson:+v.slice(1)});};
+    $("#setup").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+      if(b.dataset.count){const c=b.dataset.count;quizCfg.count=isNaN(+c)?c:+c;}
+      if(b.dataset.shuf){quizCfg.shuffle=b.dataset.shuf==="1";}
+      saveQuizCfg();renderQuiz();};
+    $("#go").onclick=()=>{ if(!q.pool.length){toast("No words here yet");return;}
+      [...new Set(q.pool.map(w=>w.lesson))].slice(0,6).forEach(preloadAudio);
+      $("#go").hidden=true; $("#setup").hidden=true; const cd=$("#cd"); cd.hidden=false; let n=3; cd.textContent=n;
+      const tick=()=>{ n--; if(!quiz||current!=="quiz")return; if(n>0){cd.textContent=n;cd.style.animation="none";void cd.offsetWidth;cd.style.animation="";q.to=setTimeout(tick,750);} else {q.total=quizTotal(q);q.phase="q";renderQuiz();} };
       q.to=setTimeout(tick,750); };
     return;
   }
   if(q.phase==="end") return renderQuizEnd();
-  const it=q.qs[q.i], w=BYID.get(it.id);
+  const it=ensureQ(q,q.i), w=BYID.get(it.id);
   let prompt;
   if(it.type==="mc_en") prompt=`<div class="kq-hint">What does it mean?</div><div class="kq-word">${esc(w.w)}</div>`;
   else if(it.type==="mc_ru") prompt=`<div class="kq-hint">How do you say it in English?</div><div class="kq-word ru">${esc(w.tr)}</div>`;
@@ -950,10 +997,9 @@ function renderQuiz(){
   q.answered=false;
   $("#view").innerHTML=`<section class="kq">
     <div class="kq-top">
-      <span class="kq-n tn">${q.i+1}<span>/${q.qs.length}</span></span>
+      <span class="kq-n tn">${q.i+1}<span>${q.total===Infinity?" · ∞":"/"+q.total}</span></span>
       <span class="kq-score tn" id="score">${q.score.toLocaleString("en-US")}</span>
-      ${q.streak>1?`<span class="kq-streak">streak ${q.streak} 🔥</span>`:""}
-      <button class="btn sm" id="quit">Quit</button>
+      <button class="btn sm" id="quit">${q.total===Infinity?"Finish":"Quit"}</button>
     </div>
     <div class="kq-q">${prompt}</div>
     <div class="kq-timer"><i id="bar"></i><span id="secs" class="tn">20</span></div>
@@ -961,7 +1007,7 @@ function renderQuiz(){
       <svg viewBox="0 0 24 24" aria-hidden="true">${QCOL[k].shape}</svg><span>${esc(o)}</span><kbd>${k+1}</kbd></button>`).join("")}</div>
     <div class="kq-fb" id="kfb"></div>
   </section>`;
-  $("#quit").onclick=()=>{ if(q.i===0||confirm("End the quiz? Answers so far will be saved.")){ q.phase="end"; renderQuiz(); } };
+  $("#quit").onclick=()=>{ if(q.i===0||q.total===Infinity||confirm("End the quiz? Answers so far will be saved.")){ q.phase="end"; renderQuiz(); } };
   document.querySelectorAll(".kq-opt").forEach(b=>b.onclick=()=>quizAnswer(b));
   q.t0=performance.now();
   const bar=$("#bar"), secs=$("#secs");
@@ -992,13 +1038,13 @@ function quizAnswer(btn){
   fb.className="kq-fb show "+(ok?"good":"bad");
   fb.innerHTML=`<div class="kq-verdict">${ok?"Correct":btn?"Wrong":"Time's up"}${ok?`<b class="tn">+${pts}</b>`:""}</div>
     <div class="kq-answer"><span>${esc(w.w)}</span> — ${esc(w.tr)}</div>
-    <button class="pearl sm" id="kn">${q.i+1<q.qs.length?"Next":"Results"}<span class="kbd">Enter</span></button>`;
+    <button class="pearl sm" id="kn">${q.i+1<q.total?"Next":"Results"}<span class="kbd">Enter</span></button>`;
   const sc=$("#score"); if(sc){sc.textContent=q.score.toLocaleString("en-US"); if(ok){sc.classList.remove("pop");void sc.offsetWidth;sc.classList.add("pop");}}
   if(ok&&btn){const r=btn.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,28);}
   else { const g=$(".kq-grid"); g.classList.remove("shake"); void g.offsetWidth; g.classList.add("shake"); }
   $("#kn").onclick=quizNext; $("#kn").focus();
 }
-function quizNext(){ const q=quiz; if(!q)return; q.i++; if(q.i>=q.qs.length) q.phase="end"; renderQuiz(); }
+function quizNext(){ const q=quiz; if(!q)return; q.i++; if(q.i>=q.total) q.phase="end"; renderQuiz(); }
 function renderQuizEnd(){
   const q=quiz, n=q.right+q.wrong.length, acc=n?Math.round(q.right/n*100):0;
   const medal=acc>=90?"Brilliant":acc>=70?"Great result":acc>=40?"Good start":"Needs more practice";
