@@ -1,4 +1,4 @@
-# Слово за словом
+# Word by Word
 
 Тренажёр 600 слов из *Essential Words for the IELTS*: 10 юнитов по 3 темы, как в книге.
 
