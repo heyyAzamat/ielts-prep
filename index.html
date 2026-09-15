@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Word by Word">
 <meta name="description" content="600 words from Essential Words for the IELTS: flashcards, collocations, quizzes and natural voice audio.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
@@ -256,7 +259,7 @@ dialog .glass{background:var(--night-2);max-height:86vh;overflow:auto;padding:28
 #fx{z-index:30}
 .wrap{position:relative;z-index:1}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(380px circle at var(--mx,50%) var(--my,-20%),rgba(160,220,210,.035),transparent 70%)}
-#view.enter{animation:viewIn .6s cubic-bezier(.2,.7,.2,1) both}
+#view.enter{animation:viewIn .6s cubic-bezier(.2,.7,.2,1) backwards}
 @keyframes viewIn{from{opacity:.001;filter:blur(8px);transform:translateY(12px)}to{opacity:1;filter:none;transform:none}}
 .hero h1 .ch{display:inline-block;animation:chIn 1s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i)*38ms)}
 @keyframes chIn{from{opacity:.001;filter:blur(12px);transform:translateY(.25em)}to{opacity:1;filter:none;transform:none}}
@@ -380,6 +383,83 @@ dialog[open] .glass{animation:cardIn .4s cubic-bezier(.2,.7,.2,1) both}
 .kq-podium span{color:var(--text-2);font-size:16px;margin-top:6px}
 .kq-miss{max-width:640px;margin:34px auto 0;text-align:left}
 .kq-miss .label{margin-bottom:10px}
+
+
+/* ---------- мобильные ---------- */
+html{-webkit-text-size-adjust:100%}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.field{max-width:100%}
+@media (max-width:600px){
+  body{font-size:16px}
+  .top{padding:10px 0;gap:8px}
+  .logo-mark{width:36px;height:36px}
+  nav button{padding:7px 12px;font-size:15px}
+  .hero{height:clamp(520px,82svh,680px)}
+  .hero-in{padding-top:7vh}
+  .hero .lead{font-size:17px;margin-top:26px}
+  .hero .foot{font-size:13px;margin-top:22px}
+  .sec-h{margin:40px 0 18px}
+  .unit{padding:20px 18px 8px;border-radius:18px}
+  .unit-h .no{font-size:34px}
+  .lesson{grid-template-columns:1fr;gap:10px;padding:14px 0}
+  .lesson .acts{order:2}
+  .lesson .acts .btn{flex:1;padding:10px 12px}
+  .lesson .meter{order:3}
+  .page-h{margin:16px 0 18px}
+  .page-h>div{width:100%}
+  .page-h .row .btn,.page-h .row .pearl{flex:1}
+  /* карточки */
+  .stage{padding-top:6px}
+  .stage .page-h>div{flex-direction:column;align-items:stretch!important}
+  .stage .page-h select.field{width:100%}
+  .stage .seg{justify-content:center}
+  .flipper{min-height:min(440px,58svh)}
+  .card{padding:24px 18px}
+  .card .word{font-size:clamp(40px,12vw,56px)}
+  .card .answer-big{font-size:clamp(26px,7.5vw,34px)}
+  .card .cols{margin-top:20px;gap:8px}
+  .card .cols .cc{font-size:17px}
+  .card .cols .cr{font-size:13px}
+  .card-acts{display:grid;grid-template-columns:1fr auto 1fr;gap:8px}
+  .card-acts .btn,.card-acts .pearl{padding:14px 10px;font-size:15px;border-radius:14px}
+  .card-acts .kbd{display:none}
+  .swipe-hint{display:block}
+  /* тест */
+  .kq{padding-top:4px}
+  .kq-intro,.kq-end{padding-top:3vh}
+  .kq-intro h1,.kq-end h1{font-size:clamp(32px,9vw,44px)}
+  .kq-setup{margin-top:22px;width:100%}
+  .kq-field{width:100%;gap:8px}
+  .kq-setup .field{min-width:0;width:100%}
+  .kq-setup .seg{flex-wrap:wrap;justify-content:center;border-radius:18px}
+  .kq-setup .seg button{padding:8px 12px;font-size:14px}
+  .kq-top{margin-bottom:12px}
+  .kq-score{font-size:20px}
+  .kq-q{min-height:150px;padding:20px 14px;border-radius:20px}
+  .kq-word{font-size:clamp(34px,10vw,48px)}
+  .kq-word.ru{font-size:clamp(24px,7vw,32px)}
+  .kq-word.def,.kq-word.gapq{font-size:clamp(19px,5.4vw,24px)}
+  .kq-timer{margin:12px 0;height:24px}
+  .kq-timer span{font-size:18px}
+  .kq-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .kq-opt{min-height:96px;padding:12px;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:8px;font-size:15px;border-radius:14px}
+  .kq-opt svg{width:22px;height:22px}
+  .kq-opt kbd{display:none}
+  .kq-opt.right::after{width:26px;height:26px;font-size:16px;right:10px;top:12px;transform:none}
+  .kq-fb.show{position:fixed;left:0;right:0;bottom:0;z-index:20;margin:0;padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));
+    background:rgba(8,10,10,.92);backdrop-filter:blur(14px);border-top:1px solid var(--line);gap:6px 14px}
+  .kq-fb .kq-verdict{font-size:22px}
+  .kq-fb .kq-answer{font-size:15px;flex:1 1 60%}
+  .kq-fb .pearl{padding:12px 22px}
+  .kq-fb .kbd{display:none}
+  .kq-podium b{font-size:42px}
+  /* словарь и задания */
+  .item{padding:12px 2px}
+  .opts{gap:8px}
+  .task{padding:18px}
+  dialog .glass{padding:22px 18px}
+}
+.swipe-hint{display:none;text-align:center;font-size:12px;color:var(--text-3);margin-top:10px}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
@@ -680,6 +760,7 @@ function renderCards(){
       </div></div>`;
     body=`<div class="prog"><span class="tn">${d.i+1}/${d.items.length}</span><div class="track"><i style="width:${d.i/d.items.length*100}%"></i></div><span>known <span class="tn">${d.known}</span></span></div>
     <div class="flash ${d.anim||""}" id="flash">${face}</div>
+    <div class="swipe-hint">tap to flip · swipe → know · swipe ← don't know</div>
     <div class="card-acts"><button class="btn" id="no">Don't know<span class="kbd">1</span></button><button class="btn" id="flip">Flip<span class="kbd">space</span></button><button class="pearl sm" id="yes">Know it<span class="kbd">2</span></button></div>`;
   }
   $("#view").innerHTML=`<div class="stage" style="max-width:760px">${head}${body}</div>`;
@@ -690,7 +771,13 @@ function renderCards(){
   if(fl){
     const fit=()=>{const h=Math.max($("#cardF").scrollHeight,$("#cardB").scrollHeight);fl.style.height=h+"px";};
     fit(); if(document.fonts?.ready) document.fonts.ready.then(fit);
-    fl.addEventListener("click",e=>{if(e.target.closest("[data-say]"))return;const r=fl.getBoundingClientRect();flip(e.clientX<r.left+r.width/2?-1:1);});
+    let sx=null,sy=0,swiped=false;
+    fl.addEventListener("touchstart",e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY;swiped=false;},{passive:true});
+    fl.addEventListener("touchmove",e=>{if(sx===null)return;const t=e.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+      if(Math.abs(dx)>12&&Math.abs(dx)>Math.abs(dy)){tw.style.transition="none";tw.style.transform=`translateX(${dx}px) rotate(${dx/25}deg)`;tw.style.opacity=String(Math.max(.4,1-Math.abs(dx)/400));}},{passive:true});
+    fl.addEventListener("touchend",e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;sx=null;tw.style.transition="";
+      if(Math.abs(dx)>70){swiped=true;tw.style.transform="";tw.style.opacity="";rate(dx>0);}else{tw.style.transform="";tw.style.opacity="";}});
+    fl.addEventListener("click",e=>{if(swiped){swiped=false;return;}if(e.target.closest("[data-say]"))return;const r=fl.getBoundingClientRect();flip(e.clientX<r.left+r.width/2?-1:1);});
     if(!REDUCE&&matchMedia("(hover:hover)").matches){
       fl.addEventListener("pointermove",e=>{const r=fl.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
         tw.style.transform=`rotateY(${x*6}deg) rotateX(${-y*5}deg)`;
